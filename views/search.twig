@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input { width: 100%; padding: 10px; margin-bottom: 20px; }
+    ul { list-style-type: none; padding: 0; }
+    li { padding: 10px; border-bottom: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>{{ title }}</h1>
+  <input type="text" id="search" placeholder="Search by categorie..." />
+  <ul id="results"></ul>
+
+  <script>
+    const socket = io();
+
+ 
+    const searchInput = document.getElementById("search");
+    const resultsContainer = document.getElementById("results");
+
+
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value;
+      socket.emit("search categorie", query); 
+    });
+
+
+    socket.on("search results", (results) => {
+      resultsContainer.innerHTML = results.map(ordinateur => `
+        <li>
+          <strong>Modele:</strong> ${ordinateur.modele}<br>
+          <strong>Categorie:</strong> ${ordinateur.categorie}<br>
+          <strong>Date de Fabrication:</strong> ${new Date(ordinateur.dateDeFabrication).toLocaleDateString()}<br>
+          <strong>Prix:</strong> ${ordinateur.prix}
+        </li>
+      `).join("");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h1>Bonjour</h1>  
+  <script>
+  var socket = io();
+  socket.on('msg',(data)=>{
+    console.log(data)
+    var p = document.createElement('p')
+    p.innerText= data
+    document.body.append(p)
+  })
+  </script>
+</body>
+</html>
